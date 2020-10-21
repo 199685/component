@@ -25,12 +25,12 @@ Vue.component('County', {
             }
         },
         starStyle: function () {
-            if (this.star === true) {
+            let followStar = this.star.map(data => data.SiteName)
+            if (followStar.includes(this.item.SiteName)) {
                 return "fas fa-star"
             } else {
                 return "far fa-star"
             }
-
         }
     }
 })
