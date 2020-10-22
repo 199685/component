@@ -5,7 +5,7 @@ Vue.component('County', {
     props: ['item', 'star'],
     methods: {
         folower: function () {
-            this.$emit('touch', this.item)
+            this.$emit('touch', this.item.SiteName)
         }
 
     },
@@ -25,8 +25,8 @@ Vue.component('County', {
             }
         },
         starStyle: function () {
-            let followStar = this.star.map(data => data.SiteName)
-            if (followStar.includes(this.item.SiteName)) {
+
+            if (this.star.includes(this.item.SiteName)) {
                 return "fas fa-star"
             } else {
                 return "far fa-star"
@@ -60,13 +60,11 @@ var app = new Vue({
         },
         folower: function (item) {
 
-            let SiteName = this.stared.map(data => data.SiteName)
 
-            if (SiteName.indexOf(item.SiteName) < 0) {
+            if (this.stared.indexOf(item) < 0) {
                 this.stared.push(item)
-
             } else {
-                let index = SiteName.findIndex(data => item.SiteName === data)
+                let index = this.stared.findIndex(data => item === data)
                 this.stared.splice(index, 1)
             }
             localStorage.setItem('listdata', JSON.stringify(this.stared))
@@ -90,6 +88,10 @@ var app = new Vue({
                 return this.data.filter(item => item.County === this.filter)
             }
             return this.data
+
+        },
+        locationData: function () {
+            return this.location = this.data.filter(item => this.stared.indexOf(item.SiteName) > -1)
 
         }
     },
